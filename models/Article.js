@@ -2,7 +2,7 @@
 var mongoose = require("mongoose");
 
 // pulling in our Note model
-var Note = require("./Note");
+var Comment = require("./Comment");
 
 // Create Schema class
 var Schema = mongoose.Schema;
@@ -25,9 +25,9 @@ var ArticleSchema = new Schema({
     type: Boolean,
     default: false
   },
-  notes: [{
+  comments: [{
      type: Schema.Types.ObjectId,
-     ref: "Note"
+     ref: "Comment"
   }]
 });
 

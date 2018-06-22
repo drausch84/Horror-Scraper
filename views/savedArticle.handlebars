@@ -1,0 +1,38 @@
+{{!-- View for the saved articles --}}
+<div class="container">
+
+    <div class="col-md-12 jumbotron">
+        <div class="text-center">
+            <h1> Saved Articles</h1>
+        </div>
+    </div>
+    <div class="col-md-12">
+        {{#if article}}
+            {{#each article}}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>{{this.title}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p> {{this.summary}}</p>
+                        <a href={{this.link}} target="_blank">{{this.link}}</a>
+                        <br><br>
+                        <button type="button" class="btn btn-dark addComment" data-toggle="modal" data-target="#commentModal{{this._id}}" data-id={{this._id}}>Add a Comment</button>
+                        <button type="button" class="btn btn-light deleteComment" data-id={{this._id}}>Delete Comment</button>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>Your saved article section is empty enough to hear the dead!</h4>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+{{!-- Comment Modal --}}
+{{#each article}}
+    {{> comment-modal }}
+{{/each}}
