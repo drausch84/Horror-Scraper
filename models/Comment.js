@@ -4,7 +4,7 @@ var mongoose = require("mongoose");
 // Create a schema class
 var Schema = mongoose.Schema;
 
-// Create the Note schema
+// Create the Comment schema
 var CommentSchema = new Schema({
     body: {
         type: String
@@ -15,8 +15,8 @@ var CommentSchema = new Schema({
     }
 });
 
-// Create the Note model with the NoteSchema
+// Create the Comment model with the CommentSchema
 var Comment = mongoose.model("Comment", CommentSchema);
 
-// Export the Note model
+// Export the Comment model
 module.exports = Comment;
