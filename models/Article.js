@@ -1,7 +1,7 @@
 // Dependency for mongoose
 var mongoose = require("mongoose");
 
-// pulling in our Note model
+// pulling in our Comment model
 var Comment = require("./Comment");
 
 // Create Schema class
