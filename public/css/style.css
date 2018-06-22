@@ -1,0 +1,32 @@
+a{
+    color: ghostwhite;
+    font-family: 'Eater', cursive;
+}
+p{
+    color: ghostwhite;
+    text-align: center;
+    font-family: 'Eater', cursive;
+}
+h1{
+    color: ghostwhite;
+    text-align: center;
+    font-family: 'Eater', cursive;
+}
+h4{
+    color: ghostwhite;
+    text-align: center;
+    font-family: 'Eater', cursive;
+}
+.btn-dark{
+    color: ghostwhite;
+    text-align: center;
+    font-family: 'Eater', cursive;
+}
+.panel{
+    background: linear-gradient(black, orange);
+}
+.jumbotron{
+    background: black;
+    margin: 20px;
+    width: 95%;
+}
