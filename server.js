@@ -5,11 +5,11 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 var path = require("path");
 
-// Comment and Article models
-var Comment = require("./models/Comment.js");
+// Requiring Note and Article models
+var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
 
-// Scraping dependencies
+// Scraping tools
 var request = require("request");
 var cheerio = require("cheerio");
 
@@ -17,7 +17,7 @@ var cheerio = require("cheerio");
 mongoose.Promise = Promise;
 
 //Define port
-var port = process.env.PORT || 8000
+var port = process.env.PORT || 3000
 
 // Initialize Express
 var app = express();
@@ -36,12 +36,13 @@ var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({
     defaultLayout: "main",
-    modalDir: path.join(__dirname, "/views/layouts/modal")
+    partialsDir: path.join(__dirname, "/views/layouts/partials")
 }));
 app.set("view engine", "handlebars");
 
 // Database configuration with mongoose
 
+mongoose.connect("mongodb://localhost/scraper");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -80,7 +81,7 @@ app.get("/saved", function(req, res) {
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
-  request("http://bloody-disgusting.com", function(error, response, html) {
+  request("https://bloody-disgusting.com", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
     // Now, we grab every h2 within an article tag, and do the following:
@@ -188,23 +189,23 @@ app.post("/articles/delete/:id", function(req, res) {
 
 
 // Create a new note
-app.post("/comments/save/:id", function(req, res) {
+app.post("/notes/save/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
-  var newComment = new Comment({
+  var newNote = new Note({
     body: req.body.text,
     article: req.params.id
   });
   console.log(req.body)
   // And save the new note the db
-  newComment.save(function(error, note) {
+  newNote.save(function(error, note) {
     // Log any errors
     if (error) {
       console.log(error);
     }
     // Otherwise
     else {
-      // Use the article id to find and update it's comments
-      Article.findOneAndUpdate({ "_id": req.params.id }, {$push: { "comments": comment } })
+      // Use the article id to find and update it's notes
+      Article.findOneAndUpdate({ "_id": req.params.id }, {$push: { "notes": note } })
       // Execute the above query
       .exec(function(err) {
         // Log any errors
@@ -213,25 +214,25 @@ app.post("/comments/save/:id", function(req, res) {
           res.send(err);
         }
         else {
-          // Or send the comment to the browser
-          res.send(comment);
+          // Or send the note to the browser
+          res.send(note);
         }
       });
     }
   });
 });
 
-// Delete a comment
-app.delete("/comments/delete/:comment_id/:article_id", function(req, res) {
+// Delete a note
+app.delete("/notes/delete/:note_id/:article_id", function(req, res) {
   // Use the note id to find and delete it
-  Comment.findOneAndRemove({ "_id": req.params.comment_id }, function(err) {
+  Note.findOneAndRemove({ "_id": req.params.note_id }, function(err) {
     // Log any errors
     if (err) {
       console.log(err);
       res.send(err);
     }
     else {
-      Article.findOneAndUpdate({ "_id": req.params.article_id }, {$pull: {"comments": req.params.comment_id}})
+      Article.findOneAndUpdate({ "_id": req.params.article_id }, {$pull: {"notes": req.params.note_id}})
        // Execute the above query
         .exec(function(err) {
           // Log any errors
@@ -240,8 +241,8 @@ app.delete("/comments/delete/:comment_id/:article_id", function(req, res) {
             res.send(err);
           }
           else {
-            // Or send the comment to the browser
-            res.send("Comment Deleted");
+            // Or send the note to the browser
+            res.send("Note Deleted");
           }
         });
     }

@@ -17,16 +17,26 @@ h4{
     text-align: center;
     font-family: 'Eater', cursive;
 }
-.btn-dark{
-    color: ghostwhite;
+.btn-light{
+    color: black;
+    text-align: center;
+    font-family: 'Eater', cursive;
+}
+.btn-light{
+    color: black;
     text-align: center;
     font-family: 'Eater', cursive;
 }
 .panel{
-    background: linear-gradient(black, orange);
+    background-image: url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/HZ4Ez0uAgj1t9mdh9/videoblocks-horror-intro-background-for-halloween_sbx5-bixz_thumbnail-small01.jpg");
+    margin:10px;
 }
 .jumbotron{
-    background: black;
+    background-image: url("../images/cobweb.jpg");
     margin: 20px;
     width: 95%;
+}
+body{
+    background-image: url("../images/horror-background.jpg");
+    
 }

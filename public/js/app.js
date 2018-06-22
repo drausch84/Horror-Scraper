@@ -37,39 +37,39 @@ $(".delete").on("click", function() {
     })
 });
 
-//Handle Save Comment button
-$(".saveComment").on("click", function() {
+//Handle Save Note button
+$(".saveNote").on("click", function() {
     var thisId = $(this).attr("data-id");
-    if (!$("#commentText" + thisId).val()) {
-        alert("please enter a comment to save")
+    if (!$("#noteText" + thisId).val()) {
+        alert("please enter a note to save")
     }else {
       $.ajax({
             method: "POST",
-            url: "/comments/save/" + thisId,
+            url: "/notes/save/" + thisId,
             data: {
-              text: $("#commentText" + thisId).val()
+              text: $("#noteText" + thisId).val()
             }
           }).done(function(data) {
               // Log the response
               console.log(data);
-              // Empty the comments section
-              $("#commentText" + thisId).val("");
-              $(".modalComment").modal("hide");
+              // Empty the notes section
+              $("#noteText" + thisId).val("");
+              $(".modalNote").modal("hide");
               window.location = "/saved"
           });
     }
 });
 
-//Handle Delete Comment button
-$(".deleteComment").on("click", function() {
-    var commentId = $(this).attr("data-comment-id");
+//Handle Delete Note button
+$(".deleteNote").on("click", function() {
+    var noteId = $(this).attr("data-note-id");
     var articleId = $(this).attr("data-article-id");
     $.ajax({
         method: "DELETE",
-        url: "/comments/delete/" + commentId + "/" + articleId
+        url: "/notes/delete/" + noteId + "/" + articleId
     }).done(function(data) {
         console.log(data)
-        $(".modalComment").modal("hide");
+        $(".modalNote").modal("hide");
         window.location = "/saved"
     })
 });
